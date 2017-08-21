@@ -3,12 +3,14 @@ import requests
 from bs4 import BeautifulSoup
 import pylab as pl
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdate
+from matplotlib import pylab
 
-lj_hs = open('lj_hs.txt', 'a')
-wj_hs = open('wj_hs.txt', 'a')
-date = open('date.txt', 'a')
 
 def get_hs():
+    lj_hs = open('lj_hs.txt', 'a')
+    wj_hs = open('wj_hs.txt', 'a')
+
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
         'Accept': 'text/html;q=0.9,*/*;q=0.8',
@@ -42,6 +44,7 @@ def get_hs():
 
 
 def get_time():
+    date = open('date.txt', 'a')
     now_time = datetime.datetime.now()
     today_time = now_time.strftime('%m/%d')
     date.write(today_time + ' ')
@@ -71,36 +74,48 @@ def fig_plot():
 
     for date_line in date_rd.readlines():
         date_list = date_line.split(' ')
-        dt_list = date_list.pop()
-        for k in range(len(date_list)-1):
-            print(date_list[k])
+        for k in range(len(date_list)):
             dt = datetime.datetime.strptime(date_list[k], '%m/%d')
-            print(dt, type(dt))
+            dt_ay.append(dt)
+    dt_fl = pl.date2num(dt_ay)
 
 
-    #dt = datetime.datetime.strptime(dt_list)
+    pl.gca().xaxis.set_major_formatter(mdate.DateFormatter('%m/%d'))
+    pl.gca().xaxis.set_major_locator(mdate.DayLocator())
+    #pl.plot_date(dt_fl,lj_ay, label = 'lj hosue number', linestyle='-')
+    #pl.plot_date(dt_fl,wj_ay, label = 'wawj house number', linestyle='-')
+    #plt.xlabel('date')
+    #plt.ylabel('house number')
+    #plt.grid(True)
+    #plt.legend(loc = 'upper left')
+    #plt.show()
 
-    #print(lj_ay)
-    #print(wj_ay)
-    #print(dt_list, type(dt_list))
-
-    pl.plot_date(pl.date2num(dt_ay),lj_ay, label = 'lj hosue number')
-    pl.plot_date(pl.date2num(dt_ay),wj_ay, label = 'wawj house number')
-    plt.xlabel('date')
-    plt.ylabel('house number')
-    plt.grid(True)
-    plt.legend(loc = 'upper left')
+    total_width, n=0.8,2
+    width = total_width/n
+    plt.bar(dt_fl, lj_ay, width=width, label = 'lj')
+    plt.bar(dt_fl+width, wj_ay,width=width, label = 'wj')
+    plt.legend()
     plt.show()
 
 
+
 if __name__ == '__main__':
-    get_hs()
-    get_time()
+    #get_hs()
+    #get_time()
     fig_plot()
 
-#x = [1,2,3,4,5]
+#td = datetime.datetime.now()
+#dates = [td + datetime.timedelta(days=i) for i in range(5)]
+#print(dates, type(dates))
+#x = pl.date2num(dates)
+#print(x)
+#
+##x = [1,2,3,4,5]
 #y = [1,4,9,16,25]
 #z = [1,1,2,4,8]
+#
+#pl.gca().xaxis.set_major_formatter(mdate.DateFormatter('%m/%d'))
+#pl.gca().xaxis.set_major_locator(mdate.DayLocator())
 #
 #plot1 = plt.plot(x,y, label = 'lj hosue number')
 #plot2 = plt.plot(x,z, label = 'wawj house number')
@@ -108,6 +123,6 @@ if __name__ == '__main__':
 #plt.ylabel('house number')
 #plt.grid(True)
 #plt.legend(loc = 'upper left')
-
+#
 #plt.show()
 
