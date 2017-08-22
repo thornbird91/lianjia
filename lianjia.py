@@ -51,7 +51,6 @@ def get_time():
     date.close()
 
 def fig_plot():
-    global date_list
     lj_hs_rd = open('lj_hs.txt', 'r')
     wj_hs_rd = open('wj_hs.txt', 'r')
     date_rd  = open('date.txt', 'r')
@@ -61,35 +60,37 @@ def fig_plot():
     dt_ay = []
 
     for lj_line in lj_hs_rd.readlines():
-        lj_list = lj_line.split(' ')
-        for i in range(len(lj_list)-1):
+        lj_list = lj_line.strip().split(' ')
+        for i in range(len(lj_list)):
             aa = int(lj_list[i])
             lj_ay.append(aa)
 
     for wj_line in wj_hs_rd.readlines():
-        wj_list = wj_line.split(' ')
-        for j in range(len(wj_list)-1):
+        wj_list = wj_line.strip().split(' ')
+        for j in range(len(wj_list)):
             bb = int(wj_list[j])
             wj_ay.append(bb)
 
     for date_line in date_rd.readlines():
-        date_list = date_line.split(' ')
+        date_list = date_line.strip().split(' ')
         for k in range(len(date_list)):
             dt = datetime.datetime.strptime(date_list[k], '%m/%d')
             dt_ay.append(dt)
     dt_fl = pl.date2num(dt_ay)
 
 
+    plt.figure(1)
     pl.gca().xaxis.set_major_formatter(mdate.DateFormatter('%m/%d'))
     pl.gca().xaxis.set_major_locator(mdate.DayLocator())
-    #pl.plot_date(dt_fl,lj_ay, label = 'lj hosue number', linestyle='-')
-    #pl.plot_date(dt_fl,wj_ay, label = 'wawj house number', linestyle='-')
-    #plt.xlabel('date')
-    #plt.ylabel('house number')
-    #plt.grid(True)
-    #plt.legend(loc = 'upper left')
+    pl.plot_date(dt_fl,lj_ay, label = 'lj hosue number', linestyle='-')
+    pl.plot_date(dt_fl,wj_ay, label = 'wawj house number', linestyle='-')
+    plt.xlabel('date')
+    plt.ylabel('house number')
+    plt.grid(True)
+    plt.legend(loc = 'upper left')
     #plt.show()
 
+    plt.figure(2)
     total_width, n=0.8,2
     width = total_width/n
     plt.bar(dt_fl, lj_ay, width=width, label = 'lj')
