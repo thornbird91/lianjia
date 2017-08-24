@@ -89,6 +89,7 @@ def fig_plot():
     plt.grid(True)
     plt.legend(loc = 'upper left')
     #plt.show()
+    plt.savefig('line_plot.png')
 
     plt.figure(2)
     total_width, n=0.8,2
@@ -96,7 +97,8 @@ def fig_plot():
     plt.bar(dt_fl, lj_ay, width=width, label = 'lj')
     plt.bar(dt_fl+width, wj_ay,width=width, label = 'wj')
     plt.legend()
-    plt.show()
+    #plt.show()
+    plt.savefig('bar_plot.png')
 
 
 
@@ -105,25 +107,4 @@ if __name__ == '__main__':
     #get_time()
     fig_plot()
 
-#td = datetime.datetime.now()
-#dates = [td + datetime.timedelta(days=i) for i in range(5)]
-#print(dates, type(dates))
-#x = pl.date2num(dates)
-#print(x)
-#
-##x = [1,2,3,4,5]
-#y = [1,4,9,16,25]
-#z = [1,1,2,4,8]
-#
-#pl.gca().xaxis.set_major_formatter(mdate.DateFormatter('%m/%d'))
-#pl.gca().xaxis.set_major_locator(mdate.DayLocator())
-#
-#plot1 = plt.plot(x,y, label = 'lj hosue number')
-#plot2 = plt.plot(x,z, label = 'wawj house number')
-#plt.xlabel('date')
-#plt.ylabel('house number')
-#plt.grid(True)
-#plt.legend(loc = 'upper left')
-#
-#plt.show()
 
